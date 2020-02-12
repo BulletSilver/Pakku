@@ -21,8 +21,6 @@ sub MAIN ( IO( ) :$dest = $*HOME.add: '.pakku' ) {
       => 'https://github.com/perlpilot/p6-File-Temp.git',
     'Concurrent::File::Find'
       => 'https://github.com/gfldex/perl6-concurrent-file-find.git',
-    'Hash::Merge::Augment'
-      => 'https://github.com/scriptkitties/p6-Hash-Merge.git',
     'Terminal::ANSIColor'
       => 'https://github.com/tadzik/Terminal-ANSIColor.git',
     'Log::Async'
