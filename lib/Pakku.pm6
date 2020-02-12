@@ -1,5 +1,4 @@
 use JSON::Fast;
-use Hash::Merge::Augment;
 use Terminal::ANSIColor;
 
 use Pakku::Log;
@@ -16,7 +15,7 @@ use Pakku::Dist::Native;
 use Pakku::Dist::Perl6::Path;
 use Pakku::Dist::Perl6::Inst;
 
-unit class Pakku:ver<0.0.1>:auth<cpan:hythm>;
+unit class Pakku:ver<larva>:auth<github:hythm7>;
   also does Pakku::Help;
 
 has %!cnf;
@@ -422,11 +421,31 @@ multi submethod installed ( Pakku::DepSpec::Perl6:D $depspec, :$repo! ) {
 
 submethod BUILD ( ) {
 
+  # Stolen from Hash::Merge:cpan:TYIL to fix #6
+  sub hashmerge ( %merge-into, %merge-source ) {
+
+    for %merge-source.keys -> $key {
+      if %merge-into{$key}:exists {
+        given %merge-source{$key} {
+          when Hash {
+            hashmerge %merge-into{$key}, %merge-source{$key};
+          }
+          default { %merge-into{$key} = %merge-source{$key} }
+        }
+      }
+      else {
+        %merge-into{$key} = %merge-source{$key};
+      }
+    }
+
+    %merge-into;
+  }
+
+
   my $default-cnf = %?RESOURCES<pakku.cnf>.IO;
   my $user-cnf    = $*REPO.Str.IO.parent.add: 'pakku.cnf';
 
   my $pakku-cnf = $user-cnf.e ?? $user-cnf !! $default-cnf;
-
 
   my $cnf = Pakku::Grammar::Cnf.parsefile( $pakku-cnf, actions => Pakku::Grammar::Cnf::Actions.new );
 
@@ -436,7 +455,7 @@ submethod BUILD ( ) {
 
   die X::Pakku::Parse::Cmd.new( cmd => @*ARGS ) unless $cmd;
 
-  %!cnf = $cnf.ast.merge: $cmd.ast;
+  %!cnf =  hashmerge $cnf.made, $cmd.made;
 
   my @source  = %!cnf<source>.flat;
   my $update  = %!cnf<pakku><update>;
