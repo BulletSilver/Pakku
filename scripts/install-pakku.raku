@@ -75,7 +75,7 @@ sub MAIN ( IO( ) :$dest = $*HOME.add: '.pakku' ) {
   my $pakku-bin = $bin-dir.add: 'pakku';
 
   my $pakku-bin-content = qq:to/END/;
-  #!/usr/bin/env perl6
+  #!/usr/bin/env raku
 
   # use Pakku's dependencies repo
   use lib '{$pakku-repo.path-spec}';
