@@ -31,10 +31,10 @@ git clone https://github.com/hythm7/Pakku.git
 cd Pakku
 
 # install to home directory
-./hooks/install-pakku.raku
+./tools/install-pakku.raku
 
 # or to different destination
-# ./hooks/install-pakku.raku --dest=/path/to/pakku
+# ./tools/install-pakku.raku --dest=/path/to/pakku
 
 
 # if you prefer a ready to use distribution:
@@ -64,7 +64,7 @@ Overview
 * `All Good` - Nothing to be done (eg. removing uninstalled distribution)
 
 
-Of course unless `Pakku` panicked and she doesn't know what to do, then you will be greeted with an `Exception` 
+Of course unless `Pakku` panicked and she doesn't know what to do, then you will be greeted with an `Exception`
 
 
 However `Pakku` can be really talkative when need be. She suggests her new friends set the verbosity level to at least `info` specially when adding a `Distribution` with many dependencies or multiple `Distribution`s at once.
@@ -210,7 +210,7 @@ Did I mention that the below are `Pakku` commands as well?
 <b>pakku ❓</b>
 </pre>
 
-Can you guess what they do? 
+Can you guess what they do?
 A full list is [here](https://github.com/hythm7/Pakku/blob/master/lib/Pakku/Grammar/Common.pm6),You can add you favourite ones too if you like.
 
 
@@ -271,14 +271,14 @@ NOTES
 =====
 `Pakku` ecosystem source is a github file that contains available modules in `p6c` and `cpan`. Its LTA, slow and doesn't scale well (needs to download the file and parse it).
 
-Ideally there need to be an online Recommendation Manager service which can be used by `Raku`'s package managers  to send a request for a `Distribution` and get back `json` contains the `Distribution`'s `META` along with it's dependencies. 
+Ideally there need to be an online Recommendation Manager service which can be used by `Raku`'s package managers  to send a request for a `Distribution` and get back `json` contains the `Distribution`'s `META` along with it's dependencies.
 Working on such online Recommendation Manager will take time and I wanted to release `Pakku` sooner. I might work on such Recommendation Manager after `Pakku` becomes little more stable.
 
 
 Known Issues
 ============
 
-* `%?RESOURCES` is not available inside a custom repo during the testing phase,  might cause test failure for some modules, see [here](https://github.com/hythm7/Pakku/issues/1) for more info. as temporary workaround you can bypass tests if it failed in custom repo installation. 
+* `%?RESOURCES` is not available inside a custom repo during the testing phase,  might cause test failure for some modules, see [here](https://github.com/hythm7/Pakku/issues/1) for more info. as temporary workaround you can bypass tests if it failed in custom repo installation.
 
 * There is  version of `File::Directory::Tree:ver<0.000.001>` in the ecosystem it's `source-url` points to a different version `File::Directory::Tree:ver<*>`, This causes an issue for `Pakku` if `File::Directory::Tree:ver<*>` is already installed, first `Pakku` will see a different version, but when get `source-url` and start installing an error will be thrown that this version is already installed. as a temp workaround use `force`
 
