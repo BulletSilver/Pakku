@@ -38,14 +38,14 @@ grammar SpecGrammar {
 
 class SpecActions {
 
-  method TOP ( $/ ) { make $<spec>.ast }
+  method TOP ( $/ ) { make $<spec>.made }
 
   # TODO Make it work with Regex matchers
   method spec ( $/ ) {
     my %id;
 
     %id<name> = $<name>.Str;
-    %id.push: ( $<keyval>».ast ) if $<keyval>;
+    %id.push: ( $<keyval>».made ) if $<keyval>;
 
     my %spec;
 
@@ -59,7 +59,7 @@ class SpecActions {
 
   }
 
-  method keyval ( $/ ) { make ( $<key>.Str => $<value>.ast ) }
+  method keyval ( $/ ) { make ( $<key>.Str => $<value>.made ) }
 
   method value:sym<angles> ( $/ )  { make $<val>.Str }
   method value:sym<parens> ( $/ )  { make $<val>.Str }
@@ -95,7 +95,7 @@ method parse ( Str $spec --> Hash ) {
 
   die X::Pakku::DepSpec::CannotParse.new( :$spec ) unless $m;
 
-  $m.ast;
+  $m.made;
 
 }
 

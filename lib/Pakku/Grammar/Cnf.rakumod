@@ -56,21 +56,21 @@ class Pakku::Grammar::Cnf::Actions {
 
   method TOP ( $/ ) { make %!cnf }
 
-  method section:sym<pakku>  ( $/ ) { %!cnf{~$<sym>} = $<pakkuopt>».ast.hash }
-  method section:sym<add>    ( $/ ) { %!cnf{~$<sym>} = $<addopt>».ast.hash }
-  method section:sym<remove> ( $/ ) { %!cnf{~$<sym>} = $<removeopt>».ast.hash }
-  method section:sym<list>   ( $/ ) { %!cnf{~$<sym>} = $<listopt>».ast.hash }
-  method section:sym<source> ( $/ ) { %!cnf{~$<sym>}.append: $<sourceopt>».ast }
+  method section:sym<pakku>  ( $/ ) { %!cnf{~$<sym>} = $<pakkuopt>».made.hash }
+  method section:sym<add>    ( $/ ) { %!cnf{~$<sym>} = $<addopt>».made.hash }
+  method section:sym<remove> ( $/ ) { %!cnf{~$<sym>} = $<removeopt>».made.hash }
+  method section:sym<list>   ( $/ ) { %!cnf{~$<sym>} = $<listopt>».made.hash }
+  method section:sym<source> ( $/ ) { %!cnf{~$<sym>}.append: $<sourceopt>».made }
 
   method logopt:sym<name>    ( $/ ) {
 
-    %!cnf<log>{$<level>.ast}{~$<sym>} = ~$<level-name>;
+    %!cnf<log>{$<level>.made}{~$<sym>} = ~$<level-name>;
 
   }
 
   method logopt:sym<color>    ( $/ ) {
 
-    %!cnf<log>{$<level>.ast}{~$<sym>} = ~$<level-color>;
+    %!cnf<log>{$<level>.made}{~$<sym>} = ~$<level-color>;
 
   }
 

@@ -34,9 +34,9 @@ class Pakku::Grammar::Cmd::Actions {
     my %cmd;
 
     %cmd<cmd>       = 'add';
-    %cmd<pakku>     = $<pakkuopt>».ast.hash if defined $<pakkuopt>;
-    %cmd<add>       = $<addopt>».ast.hash   if defined $<addopt>;
-    %cmd<add><what> = $<whats>.ast;
+    %cmd<pakku>     = $<pakkuopt>».made.hash if defined $<pakkuopt>;
+    %cmd<add>       = $<addopt>».made.hash   if defined $<addopt>;
+    %cmd<add><what> = $<whats>.made;
 
     make %cmd;
 
@@ -48,9 +48,9 @@ class Pakku::Grammar::Cmd::Actions {
     my %cmd;
 
     %cmd<cmd>         = 'build';
-    %cmd<pakku>       = $<pakkuopt>».ast.hash if defined $<pakkuopt>;
-    %cmd<build>       = $<buildopt>».ast.hash if defined $<buildopt>;
-    %cmd<build><what> = $<whats>.ast;
+    %cmd<pakku>       = $<pakkuopt>».made.hash if defined $<pakkuopt>;
+    %cmd<build>       = $<buildopt>».made.hash if defined $<buildopt>;
+    %cmd<build><what> = $<whats>.made;
 
     make %cmd;
 
@@ -61,9 +61,9 @@ class Pakku::Grammar::Cmd::Actions {
     my %cmd;
 
     %cmd<cmd>        = 'test';
-    %cmd<pakku>      = $<pakkuopt>».ast.hash if defined $<pakkuopt>;
-    %cmd<test>       = $<testopt>».ast.hash  if defined $<testopt>;
-    %cmd<test><what> = $<whats>.ast;
+    %cmd<pakku>      = $<pakkuopt>».made.hash if defined $<pakkuopt>;
+    %cmd<test>       = $<testopt>».made.hash  if defined $<testopt>;
+    %cmd<test><what> = $<whats>.made;
 
     make %cmd;
 
@@ -75,9 +75,9 @@ class Pakku::Grammar::Cmd::Actions {
     my %cmd;
 
     %cmd<cmd>          = 'remove';
-    %cmd<pakku>        = $<pakkuopt>».ast.hash  if defined $<pakkuopt>;
-    %cmd<remove>       = $<removeopt>».ast.hash if defined $<removeopt>;
-    %cmd<remove><what> = $<whats>.ast;
+    %cmd<pakku>        = $<pakkuopt>».made.hash  if defined $<pakkuopt>;
+    %cmd<remove>       = $<removeopt>».made.hash if defined $<removeopt>;
+    %cmd<remove><what> = $<whats>.made;
 
     make %cmd;
 
@@ -88,9 +88,9 @@ class Pakku::Grammar::Cmd::Actions {
     my %cmd;
 
     %cmd<cmd>          = 'check';
-    %cmd<pakku>        = $<pakkuopt>».ast.hash if defined $<pakkuopt>;
-    %cmd<check>       = $<checkopt>».ast.hash  if defined $<checkopt>;
-    %cmd<check><what> = $<whats>.ast;
+    %cmd<pakku>        = $<pakkuopt>».made.hash if defined $<pakkuopt>;
+    %cmd<check>       = $<checkopt>».made.hash  if defined $<checkopt>;
+    %cmd<check><what> = $<whats>.made;
 
     make %cmd;
 
@@ -103,9 +103,9 @@ class Pakku::Grammar::Cmd::Actions {
     my %cmd;
 
     %cmd<cmd>        = 'list';
-    %cmd<pakku>      = $<pakkuopt>».ast.hash if defined $<pakkuopt>;
-    %cmd<list>       = $<listopt>».ast.hash  if defined $<listopt>;
-    %cmd<list><what> = $<whats>.ast          if defined $<whats>;
+    %cmd<pakku>      = $<pakkuopt>».made.hash if defined $<pakkuopt>;
+    %cmd<list>       = $<listopt>».made.hash  if defined $<listopt>;
+    %cmd<list><what> = $<whats>.made          if defined $<whats>;
 
     make %cmd;
 
@@ -117,8 +117,8 @@ class Pakku::Grammar::Cmd::Actions {
     my %cmd;
 
     %cmd<cmd>       = 'help';
-    %cmd<pakku>     = $<pakkuopt>».ast.hash if defined $<pakkuopt>;
-    %cmd<help><cmd> = $<cmd>.so ?? $<cmd>.ast !! '';
+    %cmd<pakku>     = $<pakkuopt>».made.hash if defined $<pakkuopt>;
+    %cmd<help><cmd> = $<cmd>.so ?? $<cmd>.made !! '';
 
     make %cmd;
 

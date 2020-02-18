@@ -238,24 +238,24 @@ role Pakku::Grammar::Common {
 
 role Pakku::Grammar::Common::Actions {
 
-  method pakkuopt:sym<update>  ( $/ ) { make $<update>.ast }
-  method pakkuopt:sym<pretty>  ( $/ ) { make $<pretty>.ast }
+  method pakkuopt:sym<update>  ( $/ ) { make $<update>.made }
+  method pakkuopt:sym<pretty>  ( $/ ) { make $<pretty>.made }
   method pakkuopt:sym<please>  ( $/ ) { make ( :please )   }
   method pakkuopt:sym<dont>    ( $/ ) { make ( :dont )   }
-  method pakkuopt:sym<verbose> ( $/ ) { make ( verbose => $<level>.ast ) }
+  method pakkuopt:sym<verbose> ( $/ ) { make ( verbose => $<level>.made ) }
 
   method addopt:sym<deps-req>  ( $/ ) { make ( :deps<requires>   ) }
   method addopt:sym<deps-rec>  ( $/ ) { make ( :deps<recommends> ) }
   method addopt:sym<deps>      ( $/ ) { make ( :deps<recommends> ) }
   method addopt:sym<deps-only> ( $/ ) { make ( :deps<only> ) }
   method addopt:sym<nodeps>    ( $/ ) { make ( :!deps )            }
-  method addopt:sym<build>     ( $/ ) { make $<build>.ast }
-  method addopt:sym<test>      ( $/ ) { make $<test>.ast  }
-  method addopt:sym<force>     ( $/ ) { make $<force>.ast }
+  method addopt:sym<build>     ( $/ ) { make $<build>.made }
+  method addopt:sym<test>      ( $/ ) { make $<test>.made  }
+  method addopt:sym<force>     ( $/ ) { make $<force>.made }
 
   method addopt:sym<into>  ( $/ ) {
 
-    my $into = $<compunit-repo>.ast;
+    my $into = $<compunit-repo>.made;
 
     my $core = CompUnit::RepositoryRegistry.repository-for-name: 'core';
 
@@ -269,7 +269,7 @@ role Pakku::Grammar::Common::Actions {
 
   method removeopt:sym<from> ( $/ ) {
 
-    my $from = $<compunit-repo>.ast;
+    my $from = $<compunit-repo>.made;
 
     $from.next-repo = Nil;
 
@@ -279,13 +279,13 @@ role Pakku::Grammar::Common::Actions {
   }
 
 
-  method listopt:sym<remote>  ( $/ ) { make $<remote>.ast }
-  method listopt:sym<local>   ( $/ ) { make $<local>.ast  }
-  method listopt:sym<details> ( $/ ) { make $<details>.ast   }
+  method listopt:sym<remote>  ( $/ ) { make $<remote>.made }
+  method listopt:sym<local>   ( $/ ) { make $<local>.made  }
+  method listopt:sym<details> ( $/ ) { make $<details>.made   }
 
   method listopt:sym<repo> ( $/ ) {
 
-    my $repo = $<compunit-repo>.ast;
+    my $repo = $<compunit-repo>.made;
 
     $repo.next-repo = Nil;
 
@@ -392,10 +392,10 @@ role Pakku::Grammar::Common::Actions {
   method level:sym<🦋>     ( $/ ) { make 3 }
   method level:sym<✗>      ( $/ ) { make 5 }
 
-  method whats ( $/ ) { make $<what>».ast }
+  method whats ( $/ ) { make $<what>».made }
 
-  method what:sym<spec> ( $/ ) { make $<spec>.ast }
-  method what:sym<path> ( $/ ) { make $<path>.ast }
+  method what:sym<spec> ( $/ ) { make $<spec>.made }
+  method what:sym<path> ( $/ ) { make $<path>.made }
 
   method spec ( $/ ) {
 

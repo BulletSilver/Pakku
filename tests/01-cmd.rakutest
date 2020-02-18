@@ -83,7 +83,7 @@ for @tests {
 
   my $parser  = Pakku::Grammar::Cmd;
   my $actions = Pakku::Grammar::Cmd::Actions;
-  my $got     = $parser.parse( $cmd, :$actions ).ast;
+  my $got     = $parser.parse( $cmd, :$actions ).made;
 
 
   $got<pakku>:delete unless $got<pakku>;
