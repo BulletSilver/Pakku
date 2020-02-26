@@ -89,7 +89,7 @@ for @tests {
   $got<pakku>:delete unless $got<pakku>;
   $got<list>:delete  unless $got<list>;
 
-  $got .= deepmap( -> $_ { $_ ~~ Pakku::DepSpec::Perl6 ?? .short-name !! $_ } );
+  $got .= deepmap( -> $_ { $_ ~~ Pakku::DepSpec::Raku ?? .short-name !! $_ } );
 
   is-deeply  $got, $expected, $cmd;
 }

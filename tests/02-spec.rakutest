@@ -26,7 +26,7 @@ my \tests = %(
 
 for flat tests<ok> -> $depspec, $msg {
 
-  isa-ok Pakku::DepSpec.new( $depspec ), Pakku::DepSpec::Perl6, $msg;
+  isa-ok Pakku::DepSpec.new( $depspec ), Pakku::DepSpec::Raku, $msg;
 
 }
 

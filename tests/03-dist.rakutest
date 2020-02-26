@@ -3,7 +3,7 @@
 
 use Test;
 use JSON::Fast;
-use Pakku::Dist::Perl6;
+use Pakku::Dist::Raku;
 
 my $dist-meta = q:to/END/;
   {
@@ -56,10 +56,10 @@ my $dist-meta = q:to/END/;
 }
 END
 
-my %expected = %(${:build(${:requires($["System::Info"])}), :runtime(${:recommends($["JSON::Pretty"]), :requires($["Sereal:ver<1.*>:auth<cpan:*>", "curl", ["Archive::Compress", "Archive::Zlib"], "python2-config", "archive", "JSON::Fast"])}), :test(${:requires($["File::Temp"])})});
+my %expected = %(${:build(${:requires($["System::Info:from<Raku>"])}), :runtime(${:recommends($["JSON::Pretty:from<Raku>"]), :requires($["Sereal:from<Raku>:ver<1.*>:auth<cpan:*>", "curl:from<bin>", ["Archive::Compress:from<Raku>", "Archive::Zlib:from<Raku>"], "python2-config:from<bin>", "archive:from<native>", "JSON::Fast:from<Raku>"])}), :test(${:requires($["File::Temp:from<Raku>"])})});
 
 my $meta = from-json $dist-meta;
-my $dist  = Pakku::Dist::Perl6.new: :$meta;
+my $dist  = Pakku::Dist::Raku.new: :$meta;
 
 my %got =  $dist.depends.deepmap( *.Str );
 

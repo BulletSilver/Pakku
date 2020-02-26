@@ -1,17 +1,12 @@
 use Pakku::Dist;
 
-unit class Pakku::DepSpec::Perl6;
+unit class Pakku::DepSpec::Raku;
   also is CompUnit::DependencySpecification;
 
 
-  method new ( %spec ) {
+method new ( %spec ) { self.bless: |%spec }
 
-    self.bless: |%spec;
-
-  }
-
-# no type checking to avoid circular dependency
-multi method ACCEPTS ( Pakku::DepSpec::Perl6:D: Pakku::Dist $dist --> Bool:D ) {
+multi method ACCEPTS ( Pakku::DepSpec::Raku:D: Pakku::Dist $dist --> Bool:D ) {
 
   return False unless $.short-name ~~ any( $dist.name, $dist.provides );
   return False unless $dist.ver    ~~ $.version-matcher;

@@ -3,3 +3,6 @@ unit class Pakku::DepSpec::Java;
 
   has $.name;
 
+  method new ( %spec ) { self.bless: |%spec }
+
+

@@ -1,11 +1,11 @@
 use Pakku::Log;
-use Pakku::Dist::Perl6::Path;
+use Pakku::Dist::Raku::Path;
 
 unit class Pakku::Builder;
 
 
 # TODO: Timeout
-method build ( Pakku::Dist::Perl6::Path:D :$dist ) {
+method build ( Pakku::Dist::Raku::Path:D :$dist ) {
 
   🐛 "Build: Processing [$dist]";
 

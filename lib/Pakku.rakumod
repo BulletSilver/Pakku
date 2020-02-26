@@ -12,8 +12,8 @@ use Pakku::Tester;
 use Pakku::DepSpec;
 use Pakku::Dist::Bin;
 use Pakku::Dist::Native;
-use Pakku::Dist::Perl6::Path;
-use Pakku::Dist::Perl6::Inst;
+use Pakku::Dist::Raku::Path;
+use Pakku::Dist::Raku::Inst;
 
 unit class Pakku:ver<larva>:auth<github:hythm7>;
   also does Pakku::Help;
@@ -30,6 +30,7 @@ has Bool              $!dont;
 
 has %!installed;
 
+### Handle Raku, Perl, bin... separately
 
 method add (
 
@@ -127,15 +128,15 @@ method add (
   }
 
 
-  🐛 "Pakku: Filtering non Perl6 distributions";
+  🐛 "Pakku: Filtering non Raku distributions";
 
-  @candies .= grep( Pakku::Dist::Perl6 );
+  @candies .= grep( Pakku::Dist::Raku );
 
   🦋 ( "Pakku: ✓ Candies to be installed: ↓\n" ~ @candies.join: "\n" );
 
 
   my @dist
-    <== map( -> $path { Pakku::Dist::Perl6::Path.new: $path      } )
+    <== map( -> $path { Pakku::Dist::Raku::Path.new: $path      } )
     <== map( -> $src  { $!fetcher.fetch: :$src                   } )
     <== map( -> $cand { $cand.?prefix || $cand.source-url || $cand.support<source> } )
     <== @candies;
@@ -163,10 +164,10 @@ method build ( :@what! ) {
 
   my @candies = flat @what.map( -> $what { $!ecosystem.recommend: :$what } );
 
-  @candies .= unique( :with( &[===] ) ).grep( Pakku::Dist::Perl6 );
+  @candies .= unique( :with( &[===] ) ).grep( Pakku::Dist::Raku );
 
   my @dist
-    <== map( -> $path { Pakku::Dist::Perl6::Path.new: $path      } )
+    <== map( -> $path { Pakku::Dist::Raku::Path.new: $path      } )
     <== map( -> $src  { $!fetcher.fetch: :$src                   } )
     <== map( -> $cand { $cand.?prefix || $cand.source-url || $cand.support<source> } )
     <== @candies;
@@ -191,10 +192,10 @@ method test ( :@what! ) {
 
   my @candies = flat @what.map( -> $what { $!ecosystem.recommend: :$what } );
 
-  @candies .= unique( :with( &[===] ) ).grep( Pakku::Dist::Perl6 );
+  @candies .= unique( :with( &[===] ) ).grep( Pakku::Dist::Raku );
 
   my @dist
-    <== map( -> $path { Pakku::Dist::Perl6::Path.new: $path      } )
+    <== map( -> $path { Pakku::Dist::Raku::Path.new: $path      } )
     <== map( -> $src  { $!fetcher.fetch: :$src                   } )
     <== map( -> $cand { $cand.?prefix || $cand.source-url || $cand.support<source> } )
     <== @candies;
@@ -220,7 +221,7 @@ method check ( :@what! ) {
 
   my @candies = flat @what.map( -> $what { $!ecosystem.recommend: :$what } );
 
-  @candies .= unique( :with( &[===] ) ).grep( Pakku::Dist::Perl6 );
+  @candies .= unique( :with( &[===] ) ).grep( Pakku::Dist::Raku );
 
   my @path
     <== map( -> $src  { $!fetcher.fetch: :$src                   } )
@@ -356,7 +357,7 @@ method list (
 
 # TODO: Rewrite these methods
 
-multi submethod installed ( Pakku::DepSpec::Perl6:D $depspec, :@repo! ) {
+multi submethod installed ( Pakku::DepSpec::Raku:D $depspec, :@repo! ) {
 
   return @repo.map( -> $repo { self.installed: :$repo, $depspec } ).grep( *.so );
 
@@ -364,7 +365,7 @@ multi submethod installed ( Pakku::DepSpec::Perl6:D $depspec, :@repo! ) {
 
 multi submethod installed ( IO::Path:D $path, :@repo!) {
 
-  my $dist = Pakku::Dist::Perl6::Path.new: $path;
+  my $dist = Pakku::Dist::Raku::Path.new: $path;
 
   my $depspec = Pakku::DepSpec.new: $dist.Str;
 
@@ -372,7 +373,7 @@ multi submethod installed ( IO::Path:D $path, :@repo!) {
 
 }
 
-multi submethod installed ( Pakku::Dist::Perl6:D $dist, :@repo! ) {
+multi submethod installed ( Pakku::Dist::Raku:D $dist, :@repo! ) {
 
   my $depspec = Pakku::DepSpec.new: $dist.Str;
 
@@ -404,7 +405,7 @@ multi submethod installed ( Pakku::Dist::Native:D $dist, :@repo! ) {
 
 }
 
-multi submethod installed ( Pakku::DepSpec::Perl6:D $depspec, :$repo! ) {
+multi submethod installed ( Pakku::DepSpec::Raku:D $depspec, :$repo! ) {
 
   my @inst
     <== grep( -> $inst { $inst ~~ $depspec })
@@ -445,7 +446,7 @@ submethod BUILD ( ) {
   my $default-cnf = %?RESOURCES<pakku.cnf>.IO;
   my $user-cnf    = $*REPO.Str.IO.parent.add: 'pakku.cnf';
 
-  my $pakku-cnf = $user-cnf.e ?? $user-cnf !! $default-cnf;
+  my $pakku-cnf   = $user-cnf.e ?? $user-cnf !! $default-cnf;
 
   my $cnf = Pakku::Grammar::Cnf.parsefile( $pakku-cnf, actions => Pakku::Grammar::Cnf::Actions.new );
 
@@ -473,7 +474,7 @@ submethod BUILD ( ) {
     ==> map( -> $repo {
           eager $repo.installed
             ==> grep( *.defined )
-            ==> map( -> $dist { Pakku::Dist::Perl6::Inst.new: meta => $dist.meta } )
+            ==> map( -> $dist { Pakku::Dist::Raku::Inst.new: meta => $dist.meta } )
             ==> map( -> $dist { %!installed{$repo.name}{$dist.name}.push: $dist  } );
         });
 
@@ -490,7 +491,7 @@ submethod BUILD ( ) {
     when 'build' {
 
       $!ecosystem = Pakku::Ecosystem.new: :$update, :@source
-        if %!cnf<build><what>.first( Pakku::DepSpec::Perl6 );
+        if %!cnf<build><what>.first( Pakku::DepSpec::Raku );
 
       self.build: |%!cnf<build>;
 
@@ -499,7 +500,7 @@ submethod BUILD ( ) {
     when 'test' {
 
       $!ecosystem = Pakku::Ecosystem.new: :$update, :@source
-        if %!cnf<test><what>.first( Pakku::DepSpec::Perl6 );
+        if %!cnf<test><what>.first( Pakku::DepSpec::Raku );
 
       self.test: |%!cnf<test>;
 

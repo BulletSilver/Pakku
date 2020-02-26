@@ -1,6 +1,6 @@
 use X::Pakku;
-use Pakku::DepSpec::Perl6;
-use Pakku::DepSpec::Perl5;
+use Pakku::DepSpec::Raku;
+use Pakku::DepSpec::Perl;
 use Pakku::DepSpec::Bin;
 use Pakku::DepSpec::Native;
 use Pakku::DepSpec::Java;
@@ -53,7 +53,7 @@ class SpecActions {
     %spec<version-matcher> = Version.new( %id<ver>  // %id<version> ) if %id<ver> // %id<version>;
     %spec<auth-matcher>    = %id<auth> // %id<author> if %id<auth> // %id<author>;
     %spec<api-matcher>     = %id<api>  if %id<api>;
-    %spec<from>            = %id<from> // 'Perl6';
+    %spec<from>            = %id<from> // 'Raku';
 
     make %spec;
 
@@ -103,25 +103,15 @@ method depspec ( %spec ) {
 
   given %spec<from> {
 
-    when 'Perl6' {
-      Pakku::DepSpec::Perl6.new: %spec;
-    }
+    when 'Raku'           { Pakku::DepSpec::Raku.new:   %spec }
 
-    when 'Perl5' {
-      Pakku::DepSpec::Perl5.new: %spec;
-    }
+    when any <Perl Perl5> { Pakku::DepSpec::Perl.new:   %spec }
 
-    when 'bin' {
-      Pakku::DepSpec::Bin.new: %spec;
-    }
+    when 'bin'            { Pakku::DepSpec::Bin.new:    %spec }
 
-    when 'native' {
-      Pakku::DepSpec::Native.new: %spec;
-    }
+    when 'native'         { Pakku::DepSpec::Native.new: %spec }
 
-    when 'java' {
-      Pakku::DepSpec::Java.new: %spec;
-    }
+    when 'java'           { Pakku::DepSpec::Java.new:   %spec }
 
   }
 

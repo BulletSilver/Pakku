@@ -5,7 +5,7 @@ use X::Pakku;
 use Pakku::Log;
 use Pakku::DepSpec;
 use Pakku::Dist;
-use Pakku::Dist::Perl6::Path;
+use Pakku::Dist::Raku::Path;
 use Pakku::Dist::Bin;
 use Pakku::Dist::Native;
 
@@ -113,7 +113,7 @@ submethod !get-deps ( Pakku::Dist:D :$dist!, :%deps! ) {
 
 }
 
-multi submethod find ( Pakku::DepSpec::Perl6:D $depspec ) {
+multi submethod find ( Pakku::DepSpec::Raku:D $depspec ) {
 
   🐛 "Eco: Looking for spec [$depspec]";
 
@@ -160,7 +160,7 @@ multi submethod find ( Pakku::DepSpec::Native:D $spec ) {
 
 multi submethod find ( IO::Path:D $path ) {
 
-  Pakku::Dist::Perl6::Path.new: $path;
+  Pakku::Dist::Raku::Path.new: $path;
 
 }
 
@@ -211,7 +211,7 @@ submethod TWEAK ( ) {
 
   for @meta -> %meta {
 
-    my $dist = Pakku::Dist::Perl6.new: :%meta;
+    my $dist = Pakku::Dist::Raku.new: :%meta;
 
     %!dist{ $dist.name }.push: $dist;
     @!dist.push: $dist;

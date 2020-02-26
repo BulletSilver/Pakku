@@ -3,7 +3,7 @@ use Pakku::Dist;
 use Pakku::DepSpec;
 use Distribution::Builder::MakeFromJSON;
 
-unit class Pakku::Dist::Perl6;
+unit class Pakku::Dist::Raku;
   also is Pakku::Dist;
 
 has $.meta;
@@ -14,14 +14,14 @@ has $.meta;
 #
 has $.meta-version;
 has $.name;
-has $.auth;
-has $.author;
-has $.authority;
-has $.api;
 has $.ver;
+has $.auth;
+has $.api;
+has $.author;
 has $.description;
 has %.provides;
 has $.source-url;
+has $.authority;
 has $.license;
 has @.build-depends;
 has @.test-depends;
@@ -33,16 +33,18 @@ has %!emulates;
 has %!superseded-by;
 has %!excludes;
 
+has $!from = 'Raku';
 
-method Str ( Pakku::Dist::Perl6:D: --> Str:D ) {
 
-  $!name ~ ":ver<$!ver>:auth<$!auth>:api<$!api>"
+method Str ( Pakku::Dist::Raku:D: --> Str:D ) {
+
+  $!name ~ ":ver<$!ver>:auth<$!auth>:api<$!api>:from<$!from>"
 
 }
 
 method deps (
 
-  Pakku::Dist::Perl6:D:
+  Pakku::Dist::Raku:D:
 
   Bool:D :$runtime    = True,
   Bool:D :$test       = True,
@@ -78,13 +80,13 @@ method deps (
 
 }
 
-multi method gist ( Pakku::Dist::Perl6:D: :$details where not *.so --> Str:D ) {
+multi method gist ( Pakku::Dist::Raku:D: :$details where not *.so --> Str:D ) {
 
   colored( ~self, "bold 177" );
 
 }
 
-multi method gist ( Pakku::Dist::Perl6:D: :$details where *.so --> Str:D ) {
+multi method gist ( Pakku::Dist::Raku:D: :$details where *.so --> Str:D ) {
 
   (
     ( self.gist               ),
@@ -92,6 +94,7 @@ multi method gist ( Pakku::Dist::Perl6:D: :$details where *.so --> Str:D ) {
     ( gist-ver  $!ver         ),
     ( gist-auth $!auth        ),
     ( gist-api  $!api         ),
+    ( gist-from $!from        ),
     ( gist-desc $!description ),
     ( gist-bldr $!builder     ),
     ( gist-url  $!source-url  ),
@@ -136,6 +139,16 @@ sub gist-api ( $api ) {
   if $api
 
 }
+
+sub gist-from ( $from ) {
+
+  colored( 'from',  'bold green' ) ~
+  colored( ' → ',   'yellow'     ) ~
+  colored( ~$from,  'bold cyan'  )
+  if $from
+
+}
+
 
 sub gist-desc ( $desc ) {
 

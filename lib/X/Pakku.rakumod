@@ -95,7 +95,7 @@ class X::Pakku::Test::Fail {
 
 }
 
-class X::Pakku::Dist::Perl6::Path::NoMeta {
+class X::Pakku::Dist::Raku::Path::NoMeta {
   also is X::Pakku;
 
   has $.path;

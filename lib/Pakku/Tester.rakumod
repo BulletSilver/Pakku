@@ -1,12 +1,12 @@
 use Concurrent::File::Find;
 
 use Pakku::Log;
-use Pakku::Dist::Perl6;
+use Pakku::Dist::Raku;
 
 unit class Pakku::Tester;
 
 # TODO: Timeout
-method test ( Pakku::Dist::Perl6:D :$dist!, :$repo ) {
+method test ( Pakku::Dist::Raku:D :$dist!, :$repo ) {
 
   my @test-dir  = < tests    t >;
   my @extension = < rakutest t >;
