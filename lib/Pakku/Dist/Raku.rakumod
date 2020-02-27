@@ -11,7 +11,7 @@ has $.meta;
 # This long list of attributes were copied
 # from `Zef` The perl6 module manager
 # because I'm lazy to write them all
-#
+
 has $.meta-version;
 has $.name;
 has $.ver;
@@ -38,7 +38,7 @@ has $!from = 'Raku';
 
 method Str ( Pakku::Dist::Raku:D: --> Str:D ) {
 
-  $!name ~ ":ver<$!ver>:auth<$!auth>:api<$!api>:from<$!from>"
+  "{$!name}:ver<$!ver>:auth<$!auth>:api<$!api>"
 
 }
 
