@@ -212,12 +212,12 @@ role Pakku::Grammar::Common {
   token what:sym<spec> { <spec> }
   token what:sym<path> { <path> }
 
-  token spec { <name> <keyval>* }
+  token spec { <name> <pair>* }
   token path { <[ a..z A..Z 0..9 \-_.!~*'():@&=+$,/ ]>+ }
 
   token name { [<-[./:<>()\h]>+]+ % '::' }
 
-  token keyval { ':' <key> <value> }
+  token pair { ':' <key> <value> }
 
   proto token key { * }
   token key:sym<ver>     { <sym> }

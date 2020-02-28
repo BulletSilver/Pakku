@@ -14,11 +14,11 @@ grammar SpecGrammar {
 
   token TOP { <spec> }
 
-  token spec { <name> <keyval>* }
+  token spec { <name> <pair>* }
 
   token name { [<-[/:<>()\h]>+]+ % '::' }
 
-  token keyval { ':' <key> <value> }
+  token pair { ':' <key> <value> }
 
   proto token key { * }
   token key:sym<ver>     { <sym> }
@@ -45,7 +45,7 @@ class SpecActions {
     my %id;
 
     %id<name> = $<name>.Str;
-    %id.push: ( $<keyval>».made ) if $<keyval>;
+    %id.push: ( $<pair>».made ) if $<pair>;
 
     my %spec;
 
@@ -59,10 +59,10 @@ class SpecActions {
 
   }
 
-  method keyval ( $/ ) { make ( $<key>.Str => $<value>.made ) }
+  method pair ( $/ ) { make ( $<key>.Str => $<value>.made ) }
 
-  method value:sym<angles> ( $/ )  { make $<val>.Str }
-  method value:sym<parens> ( $/ )  { make $<val>.Str }
+  method value:sym<angles> ( $/ )  { make ~$<val> }
+  method value:sym<parens> ( $/ )  { make ~$<val> }
 
 }
 
